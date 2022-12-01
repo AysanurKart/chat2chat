@@ -8,7 +8,8 @@ const sqlite3 = require("sqlite3").verbose();
 var crypto = require("crypto");
 const http = require("http");
 const socketio = require("socket.io");
-
+const sqlite = require("sqlite3");
+const formatMessage = require('./utility/beskeder');
 const server = http.createServer(app);
 
 const io = require("socket.io")(server, {
@@ -16,6 +17,65 @@ const io = require("socket.io")(server, {
         origin: "*",
         methods: ["GET", "POST"]
     }
+});
+
+const {
+    userJoin, 
+    getCurrentUser, 
+    userLeave, 
+    getRoomUsers,
+} = require('./utility/users');
+
+const botName = 'Admin';
+
+// run when client connects
+io.on('connection', (socket) => {
+    socket.on('joinRoom', ({username, room}) => {
+        const user = userJoin(socket.id, username, room);
+
+        socket.join(user.room);
+
+        //welcome current user
+        socket.emit('message', formatMessage(botName, 'Velkommen til Chat2chat'));
+
+      //Broadcast when a user connects. Viser til alle undtagen selve useren som forbinder
+
+      socket.broadcast
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName, `${user.username} har til sluttet sig chatten`)
+      );
+
+      //send users and room info
+      io.to(user.room).emit('roomUsers', {
+        users: getRoomUsers(user.room),
+      });
+    });
+
+    //listen for chat message
+    socket.on('chatMessage', (msg) => {
+        const user = getCurrentUser(socket.id);
+
+        io.to(user.room).emit('message', formatMessage(user.username, msg));
+    });
+
+    //runs when client disconnects
+    socket.on('disconnect', () => {
+        const user = userLeave(socket.id);
+
+        if(user){
+            io.to(user.room).emit(
+                'message',
+                formatMessage(botName, `${user.username} har forladt chatten`)
+            );
+
+            //send users and room info
+            io.to(user.room).emit('roomUsers', {
+                users: getRoomUsers(user.room),
+            });
+        }
+    });
 });
 
 //sqlite ting
@@ -26,9 +86,8 @@ db.serialize(function() {
     db.run('Create table if not exists users(userID interger primary key, username text not null, password text not null)');
 }); 
 
+
 //Tilføjer bruger til Database 
-
-
 const addUserToDatabase = (username, password) => {
     db.run(
         'insert into users(username, password) values (?,?)',
@@ -39,6 +98,7 @@ const addUserToDatabase = (username, password) => {
             }
         }
     );
+
 }
 
 const getUserByUsername = (userName) => {
