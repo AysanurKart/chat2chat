@@ -11,6 +11,9 @@ const socketio = require("socket.io");
 const sqlite = require("sqlite3");
 const formatMessage = require('./utility/beskeder');
 const server = http.createServer(app);
+const cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
 
 const io = require("socket.io")(server, {
     cors: {
