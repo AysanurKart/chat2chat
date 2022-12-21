@@ -239,6 +239,64 @@ app.delete('/delete', async (req, res) => {
  
  })
 
+//ping pong
+/// dgram modulet arbejer med datagram sockets og sender beskeder fra en client/server til en anden 
+const dgram = require('dgram');
+const client = dgram.createSocket('udp4');
+
+var time = 0 
+
+function sendMessage (message, port, host){
+   return new Promise((resolve, reject) => {
+      client.send(message, 0, message.length, port, host, (error, bytes) => {
+         if (error) {
+            return reject(error);
+         }
+         return resolve(bytes);
+      })
+   })
+}
+
+ function pinging (serverAdress) {
+
+   const message = 'ping'
+   sendMessage(message, port, serverAdress).then(() => {
+      time = Date.now();
+      console.log('Sent', message, 'at time:', time);
+   })
+ }
+
+ pinging('127.0.0.1')
+
+ //Round trip time 
+//
+
+
+
+ const Traceroute = require('nodejs-traceroute');
+
+try {
+    const tracer = new Traceroute();
+    tracer
+        .on('pid', (pid) => {
+            console.log(`pid: ${pid}`);
+        })
+        .on('destination', (destination) => {
+            console.log(`destination: ${destination}`);
+        })
+        .on('hop', (hop) => {
+            console.log(`hop: ${JSON.stringify(hop)}`);
+        })
+        .on('close', (code) => {
+            console.log(`close: code ${code}`);
+        });
+
+    tracer.trace('127.0.0.1');
+} catch (ex) {
+    console.log(ex);
+}
+
+
 //HTTP ting
 app.get('/', function (req, res) {
    res.sendFile(__dirname + '/chat.html');
