@@ -4,30 +4,30 @@
     <script defer src="./index.js"></script>
 </head>
 <body>
-    <form action="/authenticate" method="post">
+    <form action="/godkendelse" method="post">
         <h2>Login</h2>
         <div class="input-field">
-            <input type="text" name="username" id="username" placeholder="Enter Username">
+            <input type="text" name="username" id="username" placeholder="Indsæt Username">
         </div>
         <div class="input-field">
-            <input type="password" name="password" id="password" placeholder="Enter Password">
+            <input type="password" name="password" id="password" placeholder="Indæst adgangskode">
         </div>
 
          <div class="form-control">
             <label for="room">Room</label>
             <select name="room" id="room">
+                <option value="Tinder">Tinder</option>
+                <option value="Aktier og investering">Aktier og investering</option>
                 <option value="Fodbold">Fodbold</option>
-                <option value="Makeup">Makeup</option>
-                <option value="Matematik">Matematik</option>
-                <option value="Kærlighed">Kærlighed</option>
+                <option value="Mental helbred">Mental helbred</option>
+                <option value="Politik">Politik</option>
             </select>
         </div>
+        <a href="http://localhost:4000/signup.html">
+            <input type="button" value="Opret Ny Bruger" />
+         </a>
         <button type="submit" class="btn">Join Chat</button>
     </form>
-
-    <a href="http://localhost:3000/signup.html">
-        <input type="button" value="Opret Ny Bruger" />
-     </a>
 
 </body>
 </html>

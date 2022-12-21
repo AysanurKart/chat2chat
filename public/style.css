@@ -1,5 +1,5 @@
 body {
-    background-color: #f3f3f3;
+    background-color: #fdd8f4;
     color: #292929;
     font-family: Arial, Helvetica, sans-serif;
     padding: 16px;
@@ -16,27 +16,6 @@ input, button {
     margin: 2px;
 }
 
-.img{
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-}
-
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-
-:root {
-	--dark-color-a: #667aff;
-	--dark-color-b: #7386ff;
-	--light-color: #e6e9ff;
-	--success-color: #5cb85c;
-	--error-color: #d9534f;
-}
-
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
 
 body {
 	font-family: 'Roboto', sans-serif;
@@ -67,7 +46,7 @@ a {
 .chat-container {
 	max-width: 1100px;
 	background: #fff;
-	margin: 30px auto;
+	margin: 100px auto;
 	overflow: hidden;
 }
 
@@ -89,8 +68,8 @@ a {
 
 .chat-sidebar {
 	background: var(--dark-color-b);
-	color: #fff;
-	padding: 20px 20px 60px;
+	color: rgb(38, 32, 32);
+	padding: 40px 40px 60px;
 	overflow-y: scroll;
 }
 
@@ -135,11 +114,6 @@ a {
 	color: #777;
 }
 
-.chat-form-container {
-	padding: 20px 30px;
-	background-color: var(--dark-color-a);
-}
-
 .chat-form-container form {
 	display: flex;
 }
@@ -175,14 +149,6 @@ a {
 	margin-bottom: 20px;
 }
 
-.join-main .form-control {
-	margin-bottom: 20px;
-	font-size: 16px;
-	padding: 5px;
-	height: 40px;
-	width: 100%;
-}
-
 .join-main label {
 	display: block;
 	margin-bottom: 5px;
@@ -216,4 +182,3 @@ a {
 		display: none;
 	}
 }
-
